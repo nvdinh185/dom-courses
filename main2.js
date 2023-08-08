@@ -40,7 +40,7 @@ var listCourses = topics.reduce(function (course, topic) {
     return course.concat(topic.courses);
 }, []);
 
-listCourses.map(function (course, idx) {
+listCourses.forEach(function (course, idx) {
     course.id = idx + 1 + '';
 })
 

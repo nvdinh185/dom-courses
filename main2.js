@@ -137,7 +137,7 @@ var editId;
 // Xử lý khi kích vào button Sửa
 function onUpdate(id) {
     editId = id;
-    // tìm sinh viên muốn sửa
+    // tìm khóa học muốn sửa
     var courseById = listCourses.find(function (course) {
         return course.id === editId;
     })

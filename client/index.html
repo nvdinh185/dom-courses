@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý khóa học</title>
+    <style>
+        .invalid {
+            border: 2px solid red;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <label>Tên</label>
+        <input type="text" name="name" /><br />
+        <span class="form-message"></span>
+    </div>
+    <br />
+    <div>
+        <label>Giá</label>
+        <input type="text" name="coin" /><br />
+        <span class="form-message"></span>
+    </div>
+    <br />
+    <div>
+        <button id="create">Thêm</button>
+        <button style="display: none;" id="update">Sửa</button>
+    </div>
+    <ul class="list-courses"></ul>
+    <script src="lib/axios.min.js"></script>
+    <script src="main2.js"></script>
+</body>
+
+</html>

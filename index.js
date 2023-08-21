@@ -34,7 +34,7 @@ app.get('/course-by-id/:id', async function (req, res) {
     try {
         var conn = mysql.createConnection(configDB);
         const listCourses = await new Promise((resolve, reject) => {
-            conn.query(`SELECT * FROM courses WHERE id = ${id}`, (err, row) => {
+            conn.query(`SELECT * FROM courses WHERE id = '${id}'`, (err, row) => {
                 if (err) reject(err);
                 resolve(row);
             })
@@ -48,12 +48,12 @@ app.get('/course-by-id/:id', async function (req, res) {
 })
 
 app.post('/courses', async function (req, res) {
-    var { name, coin } = req.body;
+    var { id, name, coin } = req.body;
     try {
         var conn = mysql.createConnection(configDB);
         await new Promise((resolve, reject) => {
-            conn.query(`INSERT INTO courses (name, coin) VALUES (?, ?)`,
-                [name, coin], (err, row) => {
+            conn.query(`INSERT INTO courses (id, name, coin) VALUES (?, ?, ?)`,
+                [id, name, coin], (err, row) => {
                     if (err) reject(err);
                     resolve(row);
                 })

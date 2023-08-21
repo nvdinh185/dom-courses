@@ -1,8 +1,9 @@
 async function display() {
-    var courses = await axios.get('http://localhost:3000/courses');
-    courses = courses.data;
-    var htmls = courses.map(function (course) {
-        return `
+    try {
+        var courses = await axios.get('http://localhost:3000/courses');
+        courses = courses.data;
+        var htmls = courses.map(function (course) {
+            return `
             <li>
                 <h2>${course.name}</h2>
                 <p>Giá: ${course.coin}</p>
@@ -10,10 +11,15 @@ async function display() {
                 <button onclick="onDelete('${course.id}')">Xóa</button>
             </li>
         `
-    })
+        })
 
-    var listElement = document.querySelector('.list-courses');
-    listElement.innerHTML = htmls.join('');
+        var listElement = document.querySelector('.list-courses');
+        listElement.innerHTML = htmls.join('');
+
+    } catch (error) {
+        var errorElement = document.querySelector('.error');
+        errorElement.innerHTML = '<p style="color: red; font-style: italic">Xảy ra lỗi khi lấy dữ liệu!</p>';
+    }
 }
 
 display();
@@ -68,14 +74,19 @@ createBtn.onclick = async function () {
             name: courseName.value,
             coin: coin.value
         }
-        await axios({
-            method: "POST",
-            url: 'http://localhost:3000/courses',
-            data: newCourse,
-        })
-        display();
-        courseName.value = '';
-        coin.value = '';
+        try {
+            await axios({
+                method: "POST",
+                url: 'http://localhost:3000/courses',
+                data: newCourse,
+            })
+            display();
+            courseName.value = '';
+            coin.value = '';
+        } catch (error) {
+            var errorElement = document.querySelector('.error');
+            errorElement.innerHTML = '<p style="color: red; font-style: italic">Xảy ra lỗi khi thêm!</p>';
+        }
     }
 
     function isRequired(input) {
@@ -97,15 +108,20 @@ var editId;
 // Xử lý khi kích vào button Sửa
 async function onUpdate(id) {
     editId = id;
-    // tìm khóa học muốn sửa
-    var courseById = await axios.get(`http://localhost:3000/course-by-id/${editId}`);
-    courseById = courseById.data;
+    try {
+        // tìm khóa học muốn sửa
+        var courseById = await axios.get(`http://localhost:3000/course-by-id/${editId}`);
+        courseById = courseById.data;
 
-    courseName.value = courseById.name;
-    coin.value = courseById.coin;
+        courseName.value = courseById.name;
+        coin.value = courseById.coin;
 
-    createBtn.setAttribute('style', 'display: none');
-    updateBtn.setAttribute('style', 'display: block');
+        createBtn.setAttribute('style', 'display: none');
+        updateBtn.setAttribute('style', 'display: block');
+    } catch (error) {
+        var errorElement = document.querySelector('.error');
+        errorElement.innerHTML = '<p style="color: red; font-style: italic">Xảy ra lỗi khi lấy dữ liệu!</p>';
+    }
 }
 
 updateBtn.onclick = async function () {
@@ -114,25 +130,35 @@ updateBtn.onclick = async function () {
         name: courseName.value,
         coin: coin.value
     }
-    await axios({
-        method: "PUT",
-        url: 'http://localhost:3000/courses',
-        data: editCourse,
-    })
-    display();
-    createBtn.setAttribute('style', 'display: block');
-    updateBtn.setAttribute('style', 'display: none');
-    courseName.value = '';
-    coin.value = '';
+    try {
+        await axios({
+            method: "PUT",
+            url: 'http://localhost:3000/courses',
+            data: editCourse,
+        })
+        display();
+        createBtn.setAttribute('style', 'display: block');
+        updateBtn.setAttribute('style', 'display: none');
+        courseName.value = '';
+        coin.value = '';
+    } catch (error) {
+        var errorElement = document.querySelector('.error');
+        errorElement.innerHTML = '<p style="color: red; font-style: italic">Xảy ra lỗi khi sửa!</p>';
+    }
 }
 
 // Xử lý khi kích vào button Xóa
 async function onDelete(id) {
     if (confirm("Bạn có chắc muốn xóa?")) {
-        await axios({
-            method: "DELETE",
-            url: `http://localhost:3000/courses/${id}`,
-        })
-        display();
+        try {
+            await axios({
+                method: "DELETE",
+                url: `http://localhost:3000/courses/${id}`,
+            })
+            display();
+        } catch (error) {
+            var errorElement = document.querySelector('.error');
+            errorElement.innerHTML = '<p style="color: red; font-style: italic">Xảy ra lỗi khi xóa!</p>';
+        }
     }
 }

@@ -1,4 +1,7 @@
-var courses = [
+## Cho danh sách khóa học như sau:
+
+```js
+const courses = [
     {
 
         id: '1',
@@ -30,4 +33,12 @@ var courses = [
         description: 'Đây là khóa học PHP',
         coin: 150
     }
-]
+];
+```
+
+1. Hiển thị danh sách khoá học ra trình duyệt
+2. Chức năng thêm 1 khoá học
+3. Chức năng sửa 1 khoá học
+4. Chức năng xóa 1 khoá học
+
+![](courses.jpg)

@@ -5,16 +5,19 @@ var topics = [
             {
                 id: '1',
                 name: 'Javascript',
+                description: 'Đây là khóa học Javascript cơ bản',
                 coin: 100
             },
             {
                 id: '2',
                 name: 'HTML - CSS',
+                description: 'Đây là khóa học HTML - CSS',
                 coin: 200
             },
             {
                 id: '3',
                 name: 'ReactJS',
+                description: 'Đây là khóa học ReactJS',
                 coin: 0
             },
         ]
@@ -25,11 +28,13 @@ var topics = [
             {
                 id: '1',
                 name: 'NodeJS',
+                description: 'Đây là khóa học NodeJS',
                 coin: 300
             },
             {
                 id: '2',
                 name: 'PHP',
+                description: 'Đây là khóa học PHP',
                 coin: 150
             }
         ]
@@ -49,6 +54,7 @@ function display() {
         return `
             <li>
                 <h2>${course.name}</h2>
+                <h3>Mô tả: ${course.description}</h3>
                 <p>Giá: ${course.coin}</p>
                 <button onclick="onUpdate('${course.id}')">Sửa</button>
                 <button onclick="onDelete('${course.id}')">Xóa</button>
@@ -65,6 +71,7 @@ display();
 var createBtn = document.querySelector('#create');
 var updateBtn = document.querySelector('#update');
 var courseName = document.querySelector('input[name="name"]');
+var description = document.querySelector('input[name="description"]');
 var coin = document.querySelector('input[name="coin"]');
 
 function generateUuid() {
@@ -95,12 +102,16 @@ function handleBlurInput(input) {
 }
 
 handleBlurInput(courseName);
+handleBlurInput(description);
 handleBlurInput(coin);
 
 // Xử lý khi kích vào button Thêm
 createBtn.onclick = function () {
     var check = true;
     if (isRequired(courseName)) {
+        check = false;
+    }
+    if (isRequired(description)) {
         check = false;
     }
     if (isRequired(coin)) {
@@ -110,11 +121,13 @@ createBtn.onclick = function () {
         var newCourse = {
             id: generateUuid(),
             name: courseName.value,
+            description: description.value,
             coin: coin.value
         }
         listCourses.push(newCourse);
         display();
         courseName.value = '';
+        description.value = '';
         coin.value = '';
     }
 
@@ -143,6 +156,7 @@ function onUpdate(id) {
     })
 
     courseName.value = courseById.name;
+    description.value = courseById.description;
     coin.value = courseById.coin;
 
     createBtn.setAttribute('style', 'display: none');
@@ -153,6 +167,7 @@ updateBtn.onclick = function () {
     var editCourse = {
         id: editId,
         name: courseName.value,
+        description: description.value,
         coin: coin.value
     }
     var idx = listCourses.findIndex(function (course) {
@@ -163,6 +178,7 @@ updateBtn.onclick = function () {
     createBtn.setAttribute('style', 'display: block');
     updateBtn.setAttribute('style', 'display: none');
     courseName.value = '';
+    description.value = '';
     coin.value = '';
 }
 

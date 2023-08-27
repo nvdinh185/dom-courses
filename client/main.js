@@ -18,7 +18,6 @@ async function display() {
         listElement.innerHTML = htmls.join('');
 
     } catch (error) {
-        var errorElement = document.querySelector('.error');
         errorElement.innerHTML = '<p style="color: red; font-style: italic">Xảy ra lỗi khi lấy dữ liệu!</p>';
     }
 }
@@ -30,6 +29,7 @@ var updateBtn = document.querySelector('#update');
 var courseName = document.querySelector('input[name="name"]');
 var description = document.querySelector('input[name="description"]');
 var coin = document.querySelector('input[name="coin"]');
+var errorElement = document.querySelector('.error');
 
 function generateUuid() {
     return 'xxxx-xxxx-xxx-xxxx'.replace(/[x]/g, function (c) {
@@ -79,7 +79,7 @@ createBtn.onclick = async function () {
             id: generateUuid(),
             name: courseName.value,
             description: description.value,
-            coin: coin.value
+            coin: Number(coin.value)
         }
         try {
             await axios({
@@ -92,7 +92,6 @@ createBtn.onclick = async function () {
             description.value = '';
             coin.value = '';
         } catch (error) {
-            var errorElement = document.querySelector('.error');
             errorElement.innerHTML = '<p style="color: red; font-style: italic">Xảy ra lỗi khi thêm!</p>';
         }
     }
@@ -128,7 +127,6 @@ async function onUpdate(id) {
         createBtn.setAttribute('style', 'display: none');
         updateBtn.setAttribute('style', 'display: block');
     } catch (error) {
-        var errorElement = document.querySelector('.error');
         errorElement.innerHTML = '<p style="color: red; font-style: italic">Xảy ra lỗi khi lấy dữ liệu!</p>';
     }
 }
@@ -138,7 +136,7 @@ updateBtn.onclick = async function () {
         id: editId,
         name: courseName.value,
         description: description.value,
-        coin: coin.value
+        coin: Number(coin.value)
     }
     try {
         await axios({
@@ -153,7 +151,6 @@ updateBtn.onclick = async function () {
         description.value = '';
         coin.value = '';
     } catch (error) {
-        var errorElement = document.querySelector('.error');
         errorElement.innerHTML = '<p style="color: red; font-style: italic">Xảy ra lỗi khi sửa!</p>';
     }
 }
@@ -168,7 +165,6 @@ async function onDelete(id) {
             })
             display();
         } catch (error) {
-            var errorElement = document.querySelector('.error');
             errorElement.innerHTML = '<p style="color: red; font-style: italic">Xảy ra lỗi khi xóa!</p>';
         }
     }

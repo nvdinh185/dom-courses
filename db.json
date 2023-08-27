@@ -17,6 +17,18 @@
       "name": "ReactJS",
       "description": "Đây là khóa học ReactJS",
       "coin": 0
+    },
+    {
+      "id": "57fd-e466-280-a816",
+      "name": "PHP",
+      "description": "Đây là khóa học PHP",
+      "coin": 150
+    },
+    {
+      "id": "8bb7-51ff-b13-fb19",
+      "name": "Java",
+      "description": "Đây là khóa học Java",
+      "coin": 160
     }
   ]
 }

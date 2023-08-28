@@ -21,9 +21,9 @@ app.get('/courses', async function (req, res) {
                 resolve(row);
             })
         })
-        res.status(200).json(listCourses);
+        res.status(200).send(listCourses);
     } catch (err) {
-        res.status(500).json(err);
+        res.status(500).send(err);
     } finally {
         conn.end();
     }
@@ -33,53 +33,53 @@ app.get('/course-by-id/:id', async function (req, res) {
     var id = req.params.id;
     try {
         var conn = mysql.createConnection(configDB);
-        const listCourses = await new Promise((resolve, reject) => {
+        const courseById = await new Promise((resolve, reject) => {
             conn.query(`SELECT * FROM courses WHERE id = '${id}'`, (err, row) => {
                 if (err) reject(err);
                 resolve(row);
             })
         })
-        res.status(200).json(listCourses[0]);
+        res.status(200).send(courseById[0]);
     } catch (err) {
-        res.status(500).json(err);
+        res.status(500).send(err);
     } finally {
         conn.end();
     }
 })
 
 app.post('/courses', async function (req, res) {
-    var { id, name, coin } = req.body;
+    var { id, name, description, coin } = req.body;
     try {
         var conn = mysql.createConnection(configDB);
         await new Promise((resolve, reject) => {
-            conn.query(`INSERT INTO courses (id, name, coin) VALUES (?, ?, ?)`,
-                [id, name, coin], (err, row) => {
+            conn.query(`INSERT INTO courses (id, name, description, coin) VALUES (?, ?, ?, ?)`,
+                [id, name, description, coin], (err, row) => {
                     if (err) reject(err);
                     resolve(row);
                 })
         })
-        res.status(200).json('OK');
+        res.status(200).send('OK');
     } catch (err) {
-        res.status(500).json(err);
+        res.status(500).send(err);
     } finally {
         conn.end();
     }
 })
 
 app.put('/courses', async function (req, res) {
-    var { id, name, coin } = req.body;
+    var { id, name, description, coin } = req.body;
     try {
         var conn = mysql.createConnection(configDB);
         await new Promise((resolve, reject) => {
-            conn.query(`UPDATE courses SET name = ?, coin = ? WHERE id = ?`,
-                [name, coin, id], (err, row) => {
+            conn.query(`UPDATE courses SET name = ?, description = ?, coin = ? WHERE id = ?`,
+                [name, description, coin, id], (err, row) => {
                     if (err) reject(err);
                     resolve(row);
                 })
         })
-        res.status(200).json('OK');
+        res.status(200).send('OK');
     } catch (err) {
-        res.status(500).json(err);
+        res.status(500).send(err);
     } finally {
         conn.end();
     }
@@ -96,9 +96,9 @@ app.delete('/courses/:id', async function (req, res) {
                     resolve(row);
                 })
         })
-        res.status(200).json('OK');
+        res.status(200).send('OK');
     } catch (err) {
-        res.status(500).json(err);
+        res.status(500).send(err);
     } finally {
         conn.end();
     }

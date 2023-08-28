@@ -6,6 +6,7 @@ async function display() {
             return `
             <li>
                 <h2>${course.name}</h2>
+                <h3>Mô tả: ${course.description}</h3>
                 <p>Giá: ${course.coin}</p>
                 <button onclick="onUpdate('${course.id}')">Sửa</button>
                 <button onclick="onDelete('${course.id}')">Xóa</button>
@@ -27,6 +28,7 @@ display();
 var createBtn = document.querySelector('#create');
 var updateBtn = document.querySelector('#update');
 var courseName = document.querySelector('input[name="name"]');
+var description = document.querySelector('input[name="description"]');
 var coin = document.querySelector('input[name="coin"]');
 
 function generateUuid() {
@@ -57,12 +59,16 @@ function handleBlurInput(input) {
 }
 
 handleBlurInput(courseName);
+handleBlurInput(description);
 handleBlurInput(coin);
 
 // Xử lý khi kích vào button Thêm
 createBtn.onclick = async function () {
     var check = true;
     if (isRequired(courseName)) {
+        check = false;
+    }
+    if (isRequired(description)) {
         check = false;
     }
     if (isRequired(coin)) {
@@ -72,6 +78,7 @@ createBtn.onclick = async function () {
         var newCourse = {
             id: generateUuid(),
             name: courseName.value,
+            description: description.value,
             coin: coin.value
         }
         try {
@@ -82,6 +89,7 @@ createBtn.onclick = async function () {
             })
             display();
             courseName.value = '';
+            description.value = '';
             coin.value = '';
         } catch (error) {
             var errorElement = document.querySelector('.error');
@@ -114,6 +122,7 @@ async function onUpdate(id) {
         courseById = courseById.data;
 
         courseName.value = courseById.name;
+        description.value = courseById.description;
         coin.value = courseById.coin;
 
         createBtn.setAttribute('style', 'display: none');
@@ -128,6 +137,7 @@ updateBtn.onclick = async function () {
     var editCourse = {
         id: editId,
         name: courseName.value,
+        description: description.value,
         coin: coin.value
     }
     try {
@@ -140,6 +150,7 @@ updateBtn.onclick = async function () {
         createBtn.setAttribute('style', 'display: block');
         updateBtn.setAttribute('style', 'display: none');
         courseName.value = '';
+        description.value = '';
         coin.value = '';
     } catch (error) {
         var errorElement = document.querySelector('.error');

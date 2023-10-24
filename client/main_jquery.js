@@ -38,7 +38,7 @@ function generateUuid() {
     });
 }
 
-// Xử lý validate khi blur vào ô input
+// Xử lý validate khi blur hoặc nhập vào ô input
 function handleBlurInput(input) {
     var errorElement = input.parent().children()[3];
     input.blur(function () {
@@ -46,9 +46,6 @@ function handleBlurInput(input) {
             $(errorElement).attr('style', 'display: block; color: red; font-style: italic;');
             $(errorElement).text('Yêu cầu nhập!');
             input.addClass('invalid');
-        } else {
-            $(errorElement).attr('style', 'display: none;');
-            input.removeClass('invalid');
         }
     })
 
@@ -104,10 +101,6 @@ createBtn.click(async function () {
             $(errorElement).text('Yêu cầu nhập!');
             input.addClass('invalid');
             return true;
-        } else {
-            $(errorElement).attr('style', 'display: none;');
-            input.removeClass('invalid');
-            return false;
         }
     }
 })
@@ -117,7 +110,7 @@ var editId;
 async function onUpdate(id) {
     editId = id;
     try {
-        // tìm khóa học muốn sửa
+        // lấy khóa học muốn sửa
         var courseById = await axios.get(`http://localhost:3000/courses/${editId}`);
         courseById = courseById.data;
 
@@ -132,6 +125,7 @@ async function onUpdate(id) {
     }
 }
 
+// Xử lý sửa khóa học
 updateBtn.click(async function () {
     var editCourse = {
         id: editId,

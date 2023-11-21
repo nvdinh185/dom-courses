@@ -29,7 +29,7 @@ app.get('/courses', async function (req, res) {
     }
 })
 
-app.get('/course-by-id/:id', async function (req, res) {
+app.get('/courses/:id', async function (req, res) {
     var id = req.params.id;
     try {
         var conn = mysql.createConnection(configDB);
@@ -66,8 +66,9 @@ app.post('/courses', async function (req, res) {
     }
 })
 
-app.put('/courses', async function (req, res) {
-    var { id, name, description, coin } = req.body;
+app.put('/courses/:id', async function (req, res) {
+    var { name, description, coin } = req.body;
+    var id = req.params.id;
     try {
         var conn = mysql.createConnection(configDB);
         await new Promise((resolve, reject) => {
@@ -103,9 +104,5 @@ app.delete('/courses/:id', async function (req, res) {
         conn.end();
     }
 })
-
-// app.get('/trang-chu', function (req, res) {
-//     res.sendFile(__dirname + '/client/index.html');
-// })
 
 app.listen(3000, () => console.log('Server listening on port 3000!'))

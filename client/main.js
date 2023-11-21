@@ -18,7 +18,6 @@ async function display() {
         listElement.innerHTML = htmls.join('');
 
     } catch (error) {
-        var errorElement = document.querySelector('.error');
         errorElement.innerHTML = '<p style="color: red; font-style: italic">Xảy ra lỗi khi lấy dữ liệu!</p>';
     }
 }
@@ -30,6 +29,7 @@ var updateBtn = document.querySelector('#update');
 var courseName = document.querySelector('input[name="name"]');
 var description = document.querySelector('input[name="description"]');
 var coin = document.querySelector('input[name="coin"]');
+var errorElement = document.querySelector('.error');
 
 function generateUuid() {
     return 'xxxx-xxxx-xxx-xxxx'.replace(/[x]/g, function (c) {
@@ -43,7 +43,7 @@ function handleBlurInput(input) {
     var errorElement = input.parentElement.querySelector('.form-message');
     input.onblur = function () {
         if (input.value.trim() === '') {
-            errorElement.setAttribute('style', 'display: block; color: red; font-style: italic;');
+            errorElement.setAttribute('style', 'color: red; font-style: italic;');
             errorElement.innerText = 'Yêu cầu nhập!';
             input.classList.add('invalid');
         }
@@ -76,7 +76,7 @@ createBtn.onclick = async function () {
             id: generateUuid(),
             name: courseName.value,
             description: description.value,
-            coin: coin.value
+            coin: Number(coin.value)
         }
         try {
             await axios({
@@ -89,7 +89,6 @@ createBtn.onclick = async function () {
             description.value = '';
             coin.value = '';
         } catch (error) {
-            var errorElement = document.querySelector('.error');
             errorElement.innerHTML = '<p style="color: red; font-style: italic">Xảy ra lỗi khi thêm!</p>';
         }
     }
@@ -97,7 +96,7 @@ createBtn.onclick = async function () {
     function isRequired(input) {
         var errorElement = input.parentElement.querySelector('.form-message');
         if (input.value.trim() === '') {
-            errorElement.setAttribute('style', 'display: block; color: red; font-style: italic;');
+            errorElement.setAttribute('style', 'color: red; font-style: italic;');
             errorElement.innerText = 'Yêu cầu nhập!';
             input.classList.add('invalid');
             return true;
@@ -111,7 +110,7 @@ async function onUpdate(id) {
     editId = id;
     try {
         // lấy khóa học muốn sửa
-        var courseById = await axios.get(`http://localhost:3000/course-by-id/${editId}`);
+        var courseById = await axios.get(`http://localhost:3000/courses/${editId}`);
         courseById = courseById.data;
 
         courseName.value = courseById.name;
@@ -121,8 +120,7 @@ async function onUpdate(id) {
         createBtn.setAttribute('style', 'display: none');
         updateBtn.setAttribute('style', 'display: block');
     } catch (error) {
-        var errorElement = document.querySelector('.error');
-        errorElement.innerHTML = '<p style="color: red; font-style: italic">Xảy ra lỗi khi lấy dữ liệu!</p>';
+        errorElement.innerHTML = '<p style="color: red; font-style: italic">Xảy ra lỗi khi lấy dữ liệu để sửa!</p>';
     }
 }
 
@@ -132,12 +130,12 @@ updateBtn.onclick = async function () {
         id: editId,
         name: courseName.value,
         description: description.value,
-        coin: coin.value
+        coin: Number(coin.value)
     }
     try {
         await axios({
             method: "PUT",
-            url: 'http://localhost:3000/courses',
+            url: `http://localhost:3000/courses/${editId}`,
             data: editCourse,
         })
         display();
@@ -147,7 +145,6 @@ updateBtn.onclick = async function () {
         description.value = '';
         coin.value = '';
     } catch (error) {
-        var errorElement = document.querySelector('.error');
         errorElement.innerHTML = '<p style="color: red; font-style: italic">Xảy ra lỗi khi sửa!</p>';
     }
 }
@@ -162,7 +159,6 @@ async function onDelete(id) {
             })
             display();
         } catch (error) {
-            var errorElement = document.querySelector('.error');
             errorElement.innerHTML = '<p style="color: red; font-style: italic">Xảy ra lỗi khi xóa!</p>';
         }
     }

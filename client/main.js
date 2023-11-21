@@ -43,7 +43,7 @@ function handleBlurInput(input) {
     var errorElement = input.parentElement.querySelector('.form-message');
     input.onblur = function () {
         if (input.value.trim() === '') {
-            errorElement.setAttribute('style', 'display: block; color: red; font-style: italic;');
+            errorElement.setAttribute('style', 'color: red; font-style: italic;');
             errorElement.innerText = 'Yêu cầu nhập!';
             input.classList.add('invalid');
         }
@@ -96,7 +96,7 @@ createBtn.onclick = async function () {
     function isRequired(input) {
         var errorElement = input.parentElement.querySelector('.form-message');
         if (input.value.trim() === '') {
-            errorElement.setAttribute('style', 'display: block; color: red; font-style: italic;');
+            errorElement.setAttribute('style', 'color: red; font-style: italic;');
             errorElement.innerText = 'Yêu cầu nhập!';
             input.classList.add('invalid');
             return true;

@@ -43,7 +43,7 @@ function handleBlurInput(input) {
     var errorElement = input.parent().children()[3];
     input.blur(function () {
         if (input.val().trim() === '') {
-            $(errorElement).attr('style', 'display: block; color: red; font-style: italic;');
+            $(errorElement).attr('style', 'color: red; font-style: italic;');
             $(errorElement).text('Yêu cầu nhập!');
             input.addClass('invalid');
         }
@@ -97,7 +97,7 @@ createBtn.click(async function () {
         var errorElement = input.parent().children()[3];
 
         if (input.val().trim() === '') {
-            $(errorElement).attr('style', 'display: block; color: red; font-style: italic;');
+            $(errorElement).attr('style', 'color: red; font-style: italic;');
             $(errorElement).text('Yêu cầu nhập!');
             input.addClass('invalid');
             return true;
@@ -121,7 +121,7 @@ async function onUpdate(id) {
         createBtn.attr('style', 'display: none');
         updateBtn.attr('style', 'display: block');
     } catch (error) {
-        errorElement.html('<p style="color: red; font-style: italic">Xảy ra lỗi khi lấy dữ liệu!</p>');
+        errorElement.html('<p style="color: red; font-style: italic">Xảy ra lỗi khi lấy dữ liệu để sửa!</p>');
     }
 }
 

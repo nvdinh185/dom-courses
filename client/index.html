@@ -14,28 +14,30 @@
 </head>
 
 <body>
-    <div>
-        <label>Tên</label>
-        <input type="text" name="name" /><br />
-        <span class="form-message"></span>
-    </div>
-    <br />
-    <div>
-        <label>Mô tả</label>
-        <input type="text" name="description" size="40" /><br />
-        <span class="form-message"></span>
-    </div>
-    <br />
-    <div>
-        <label>Giá</label>
-        <input type="text" name="coin" /><br />
-        <span class="form-message"></span>
-    </div>
-    <br />
-    <div>
-        <button id="create">Thêm</button>
-        <button style="display: none;" id="update">Sửa</button>
-    </div>
+    <form>
+        <div>
+            <label>Tên</label>
+            <input type="text" name="name" /><br />
+            <span class="form-message"></span>
+        </div>
+        <br />
+        <div>
+            <label>Mô tả</label>
+            <input type="text" name="description" size="40" /><br />
+            <span class="form-message"></span>
+        </div>
+        <br />
+        <div>
+            <label>Giá</label>
+            <input type="text" name="coin" /><br />
+            <span class="form-message"></span>
+        </div>
+        <br />
+        <div>
+            <button id="create">Thêm</button>
+            <button style="display: none;" id="update">Sửa</button>
+        </div>
+    </form>
     <div class="error"></div>
     <ul class="list-courses"></ul>
     <script src="lib/axios.min.js"></script>

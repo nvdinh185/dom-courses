@@ -60,7 +60,8 @@ handleBlurInput(description);
 handleBlurInput(coin);
 
 // Xử lý khi kích vào button Thêm
-createBtn.click(async function () {
+createBtn.click(async function (e) {
+    e.preventDefault();
     var check = true;
     if (isRequired(courseName)) {
         check = false;
@@ -126,7 +127,8 @@ async function onUpdate(id) {
 }
 
 // Xử lý sửa khóa học
-updateBtn.click(async function () {
+updateBtn.click(async function (e) {
+    e.preventDefault();
     var editCourse = {
         id: editId,
         name: courseName.val(),

@@ -88,7 +88,8 @@ handleBlurInput(description);
 handleBlurInput(coin);
 
 // Xử lý khi kích vào button Thêm
-createBtn.onclick = function () {
+createBtn.onclick = function (e) {
+    e.preventDefault();
     var check = true;
     if (isRequired(courseName)) {
         check = false;
@@ -141,7 +142,8 @@ function onUpdate(id) {
     updateBtn.setAttribute('style', 'display: block');
 }
 
-updateBtn.onclick = function () {
+updateBtn.onclick = function (e) {
+    e.preventDefault();
     var editCourse = {
         id: editId,
         name: courseName.value,

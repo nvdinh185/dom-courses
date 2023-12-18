@@ -4,14 +4,14 @@ async function display() {
         courses = courses.data;
         var htmls = courses.map(function (course) {
             return `
-            <li>
-                <h2>${course.name}</h2>
-                <h3>Mô tả: ${course.description}</h3>
-                <p>Giá: ${course.coin}</p>
-                <button onclick="onUpdate('${course.id}')">Sửa</button>
-                <button onclick="onDelete('${course.id}')">Xóa</button>
-            </li>
-        `
+                <li>
+                    <h2>${course.name}</h2>
+                    <h3>Mô tả: ${course.description}</h3>
+                    <p>Giá: ${course.coin}</p>
+                    <button onclick="onUpdate('${course.id}')">Sửa</button>
+                    <button onclick="onDelete('${course.id}')">Xóa</button>
+                </li>
+            `
         })
 
         var listElement = $('.list-courses');

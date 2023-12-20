@@ -44,17 +44,17 @@ function display() {
         `
     })
 
-    var listElement = document.querySelector('.list-courses');
-    listElement.innerHTML = htmls.join('');
+    var listElement = $('.list-courses');
+    listElement.html(htmls.join(''));
 }
 
 display();
 
-var createBtn = document.querySelector('#create');
-var updateBtn = document.querySelector('#update');
-var courseName = document.querySelector('input[name="name"]');
-var description = document.querySelector('input[name="description"]');
-var coin = document.querySelector('input[name="coin"]');
+var createBtn = $('#create');
+var updateBtn = $('#update');
+var courseName = $('input[name="name"]');
+var description = $('input[name="description"]');
+var coin = $('input[name="coin"]');
 
 function generateUuid() {
     return 'xxxx-xxxx-xxx-xxxx'.replace(/[x]/g, function (c) {
@@ -63,24 +63,21 @@ function generateUuid() {
     });
 }
 
-/**
- * Hàm để xử lý khi blur hoặc nhập vào ô input
- * @param {*} input 
- */
+// Xử lý validate khi blur hoặc nhập vào ô input
 function handleBlurInput(input) {
-    var errorElement = input.parentElement.querySelector('.form-message');
-    input.onblur = function () {
-        if (input.value.trim() === '') {
-            errorElement.setAttribute('style', 'color: red; font-style: italic;');
-            errorElement.innerText = 'Yêu cầu nhập!';
-            input.classList.add('invalid');
+    var errorElement = input.parent().children()[3];
+    input.blur(function () {
+        if (input.val().trim() === '') {
+            $(errorElement).attr('style', 'color: red; font-style: italic;');
+            $(errorElement).text('Yêu cầu nhập!');
+            input.addClass('invalid');
         }
-    }
+    })
 
-    input.oninput = function () {
-        errorElement.setAttribute('style', 'display: none;');
-        input.classList.remove('invalid');
-    }
+    input.on('input', function () {
+        $(errorElement).attr('style', 'display: none;');
+        input.removeClass('invalid');
+    })
 }
 
 handleBlurInput(courseName);
@@ -88,7 +85,7 @@ handleBlurInput(description);
 handleBlurInput(coin);
 
 // Xử lý khi kích vào button Thêm
-createBtn.onclick = function (e) {
+createBtn.click(function (e) {
     e.preventDefault();
     var check = true;
     if (isRequired(courseName)) {
@@ -103,27 +100,28 @@ createBtn.onclick = function (e) {
     if (check) {
         var newCourse = {
             id: generateUuid(),
-            name: courseName.value,
-            description: description.value,
-            coin: coin.value
+            name: courseName.val(),
+            description: description.val(),
+            coin: coin.val()
         }
         courses.push(newCourse);
         display();
-        courseName.value = '';
-        description.value = '';
-        coin.value = '';
+        courseName.val('');
+        description.val('');
+        coin.val('');
     }
 
     function isRequired(input) {
-        var errorElement = input.parentElement.querySelector('.form-message');
-        if (input.value.trim() === '') {
-            errorElement.setAttribute('style', 'color: red; font-style: italic;');
-            errorElement.innerText = 'Yêu cầu nhập!';
-            input.classList.add('invalid');
+        var errorElement = input.parent().children()[3];
+
+        if (input.val().trim() === '') {
+            $(errorElement).attr('style', 'color: red; font-style: italic;');
+            $(errorElement).text('Yêu cầu nhập!');
+            input.addClass('invalid');
             return true;
         }
     }
-}
+})
 
 var editId;
 // Xử lý khi kích vào button Sửa
@@ -134,33 +132,34 @@ function onUpdate(id) {
         return course.id === editId;
     })
 
-    courseName.value = courseById.name;
-    description.value = courseById.description;
-    coin.value = courseById.coin;
+    courseName.val(courseById.name);
+    description.val(courseById.description);
+    coin.val(courseById.coin);
 
-    createBtn.setAttribute('style', 'display: none');
-    updateBtn.setAttribute('style', 'display: block');
+    createBtn.attr('style', 'display: none');
+    updateBtn.attr('style', 'display: block');
 }
 
-updateBtn.onclick = function (e) {
+// Xử lý sửa khóa học
+updateBtn.click(function (e) {
     e.preventDefault();
     var editCourse = {
         id: editId,
-        name: courseName.value,
-        description: description.value,
-        coin: coin.value
+        name: courseName.val(),
+        description: description.val(),
+        coin: coin.val()
     }
     var idx = courses.findIndex(function (course) {
         return course.id === editId;
     })
     courses.splice(idx, 1, editCourse);
     display();
-    createBtn.setAttribute('style', 'display: block');
-    updateBtn.setAttribute('style', 'display: none');
-    courseName.value = '';
-    description.value = '';
-    coin.value = '';
-}
+    createBtn.attr('style', 'display: block');
+    updateBtn.attr('style', 'display: none');
+    courseName.val('');
+    description.val('');
+    coin.val('');
+})
 
 // Xử lý khi kích vào button Xóa
 function onDelete(id) {

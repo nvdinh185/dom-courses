@@ -1,6 +1,5 @@
 var courses = [
     {
-
         id: '1',
         name: 'Javascript',
         description: 'Đây là khóa học Javascript cơ bản',
